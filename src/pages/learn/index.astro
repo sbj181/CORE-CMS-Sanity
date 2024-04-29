@@ -1,0 +1,92 @@
+---
+// Import your layout and the function to fetch steps
+import Layout from "../../layouts/Layout.astro";
+import { getLearningSteps } from '../../utils/sanity';
+const steps = await getLearningSteps();
+console.log(steps);  // This will show you the structure of the fetched data
+
+---
+
+<Layout title="Learn Index">
+    <div class="progress-tracker">
+        {steps.map(step => (
+           <div data-key={step.order?.toString() ?? 'default'} class="circle" data-order={step.order?.toString() ?? 'default'}>
+            {step.order ?? 'N/A'}
+            </div>
+        ))}
+      </div>
+  <div class="steps-container">
+    {steps.length > 0 ? (
+      steps.map(step => (
+        <a href={`/learn/${step.slug.current}`} class="step-link">
+          <div class="step-card">
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </div>
+        </a>
+      ))
+    ) : (
+      <p>No steps available</p>
+    )}
+  </div>
+ <!--  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const circles = document.querySelectorAll('.circle');
+      circles.forEach(circle => {
+        const stepOrder = circle.getAttribute('data-order');
+        const readState = localStorage.getItem(`read-learn/step-${stepOrder}-test`) === 'true';
+        if (readState) {
+          circle.style.backgroundColor = '#4CAF50';  // Green background for visited steps
+          circle.textContent = '✓';  // Optional: Change number to checkmark
+        }
+      });
+    });
+    </script> -->
+    
+</Layout>
+
+
+    
+    
+    
+
+<style>
+  .progress-tracker {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+  }
+  .circle {
+    width: 3em;
+    height: 3em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: var(--theme-dim-light);
+    color: black;
+  }
+  .circle.visited {
+  background-color: #4CAF50; 
+  color: white;              
+}
+  .steps-container {
+    display: flex;
+    flex-direction: column;
+  }
+  .step-link {
+    text-decoration: none;
+    color: inherit; /* ensures links don't have default blue color */
+  }
+  .step-card {
+    border: 1px solid var(--theme-dim-light);
+    padding: 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    transition: all 100ms ease-in;
+    animation: fadeInUp .3s ease-in;
+  }
+  .step-card:hover {
+    border: 1px solid var(--theme-dim);
+  }
+</style>

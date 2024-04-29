@@ -1,0 +1,79 @@
+---
+import Card from "../../components/Card.astro";
+import Welcome from "../../components/Welcome.astro";
+import Layout from "../../layouts/Layout.astro";
+import { getPosts } from "../../utils/sanity";
+
+const posts = await getPosts();
+---
+
+<Layout title="Welcome to Astro.">
+  <section>
+    <div class="resource-card-container">
+      {posts.length ? posts.map((post) => <Card post={post} />) : <Welcome />}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  section {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .resource-card-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* change 3 to the number of columns you want by default */
+    gap: 20px; /* adjust for desired space between cards */
+  }
+  
+  .resource-card.third {
+    grid-column: span 1;  /* This card will take up 1/3 of the space */
+  }
+  
+  .resource-card.half {
+    grid-column: span 2;  /* This card will take up 1/2 of the space */
+  }
+  
+  .resource-card.full {
+    grid-column: span 4;  /* This card will take up all the space */
+  }
+  @keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+  @media (max-width: 90em) {
+    .resource-card-container {
+      grid-template-columns: repeat(3, 1fr); /* On smaller screens, we only want two columns */
+    }
+    .resource-card.half,
+    .resource-card.full {
+      grid-column: span 2;  /* half and full cards take up all the space on small screens */
+    }
+  }
+  @media (max-width: 72em) {
+    .resource-card-container {
+      grid-template-columns: repeat(2, 1fr); /* On smaller screens, we only want two columns */
+    }
+    .resource-card.half,
+    .resource-card.full {
+      grid-column: span 2;  /* half and full cards take up all the space on small screens */
+    }
+  }
+  
+  @media (max-width: 50em) {
+    .resource-card-container {
+      grid-template-columns: repeat(1, 1fr); /* On smaller screens, we only want two columns */
+    }
+    .resource-card.third,
+    .resource-card.half,
+    .resource-card.full {
+      grid-column: span 1;  /* All cards take up all the space on very small screens */
+    }
+  }
+</style>

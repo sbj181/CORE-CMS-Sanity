@@ -1,0 +1,480 @@
+---
+// https://docs.astro.build/en/guides/view-transitions/
+import { ViewTransitions } from 'astro:transitions';
+import ThemeToggle from '../components/ThemeToggle';
+import Menu from '../components/Menu.astro';
+
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width"
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/favicon.svg"
+    />
+    <meta
+      name="generator"
+      content={Astro.generator}
+    />
+
+    <!-- Google fonts -->
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;700&family=Inter:wght@500;700;800&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>{title}</title>
+    <ViewTransitions />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <a
+          class="header__title"
+          href="/"
+          >CORE RMS</a
+        >
+        <Menu />  <!-- Menu is now just below the header -->
+        <ThemeToggle client:load />
+      </header>
+       
+      <main>
+        <slot />
+      </main>
+      <footer class="footer">
+        <p class="footer__text">
+         Made by&nbsp; <a href="https://thegrovery.com" target="_blank">The Grovery</a>
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
+
+<style>
+  .container {
+    margin: 0 auto;
+  }
+
+  main {
+    margin-top: 45px;
+  }
+
+  .header {
+    display: flex;
+    padding: 0 var(--space-2);
+    border-bottom: 1px solid #ced2d9;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+    background: var(--theme-bg);
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+
+    & .header__title {
+      font-weight: 800;
+      font-size: var(--font-size-3);
+      line-height: var(--line-height-1);
+      padding-left: var(--space-2);
+      margin: var(--space-3) 0;
+      text-decoration: none;
+      color: var(--text-color);
+    }
+  }
+
+  .footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 var(--space-3);
+
+    & .footer__text {
+      font-size: var(--font-size-1);
+      line-height: var(--line-height-1);
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+  }
+
+  @media (min-width: 575px) {
+    .container {
+      max-width: var(--max-width-2);
+      padding: 0 var(--space-4);
+    }
+
+    main {
+      margin-top: unset;
+    }
+
+    .header {
+      /* position: unset; */
+      border-bottom: none;
+      /* margin: var(--space-3) 0; */
+      padding: var(--space-2) var(--space-4);
+      background: var(--theme-bg);
+
+      & .header__title {
+        margin: var(--space-3) 0 var(--space-2);
+        font-size: var(--font-size-5);
+      }
+    }
+
+    .footer {
+      margin: var(--space-3) 0;
+    }
+  }
+</style>
+
+<style is:global>
+  /* Global styles */
+:root {
+    --font-size-h1: 2.25rem; /* 36px */
+    --font-size-h2: 1.75rem; /* 28px */
+    --font-size-h3: 1.5rem;  /* 24px */
+    --font-size-h4: 1.25rem; /* 20px */
+    --font-size-h5: 1rem;    /* 16px */
+
+    --font-weight-normal: 400;
+    --font-weight-bold: 700;
+
+    --line-height-heading: 1.3;
+}
+
+h1 {
+    font-size: var(--font-size-h1);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-heading);
+    margin: 1rem 0;
+}
+
+h2 {
+    font-size: var(--font-size-h2);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-heading);
+    margin: 0.75rem 0;
+}
+
+h3 {
+    font-size: var(--font-size-h3);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-heading);
+    margin: 0.5rem 0;
+}
+
+h4 {
+    font-size: var(--font-size-h4);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-heading);
+    margin: 0.5rem 0;
+}
+
+h5 {
+    font-size: var(--font-size-h5);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-heading);
+    margin: 0.5rem 0;
+}
+
+p {
+    margin: 0 0 1rem;
+}
+
+/* Other element styles can go here */
+
+  :root {
+
+
+    
+    --space-0: 0;
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 20px;
+    --space-5: 32px;
+    --space-6: 52px;
+    --space-7: 84px;
+    --space-8: 136px;
+    --space-9: 220px;
+
+    --font-family-sans: Inter;
+    --font-family-serif: PT Serif;
+    --font-family-mono: IMB Plex Mono;
+
+    --font-size-0: 12px;
+    --font-size-1: 14px;
+    --font-size-2: 16px;
+    --font-size-3: 18px;
+    --font-size-4: 20px;
+    --font-size-5: 24px;
+    --font-size-6: 30px;
+    --font-size-7: 36px;
+    --font-size-8: 48px;
+    --font-size-9: 60px;
+    --font-size-10: 72px;
+
+    --line-height-0: 16px;
+    --line-height-1: 20px;
+    --line-height-2: 24px;
+    --line-height-3: 28px;
+    --line-height-4: 28px;
+    --line-height-5: 32px;
+    --line-height-6: 36px;
+    --line-height-7: 40px;
+    --line-height-8: 48px;
+    --line-height-9: 60px;
+    --line-height-10: 72px;
+    --line-height-11: 96px;
+    --line-height-12: 128px;
+
+    --white: #fff;
+    --black: #101112;
+    --gray-200: #ced2d9;
+    --gray-600: #6e7683;
+    --blue-600: #1e61cd;
+    --magenta-100: #f9d7eb;
+
+    --max-width-0: 320px;
+    --max-width-1: 768px;
+    --max-width-2: 1140px;
+
+    
+  }
+/* styles/global.css */
+:root {
+  --background-color: var(--theme-bg); /* Light background */
+  --text-color: var(--theme-text); /* Light text */
+}
+
+body.dark {
+  --background-color: var(--theme-bg); /* Dark background */
+  --text-color: var(--theme-text); /* Dark text */
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+
+/*
+	Define common fonts and colors
+*/
+body {
+  padding-top: 5em;
+	--font-heading: 'Kumbh Sans', sans-serif;
+	--font-fallback: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif,
+		Apple Color Emoji, Segoe UI Emoji;
+	--font-body: 'Kumbh Sans', sans-serif;
+	--font-mono: 'IBM Plex Mono', Consolas, 'Andale Mono WT', 'Andale Mono', 'Lucida Console',
+		'Lucida Sans Typewriter', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Liberation Mono',
+		'Nimbus Mono L', Monaco, 'Courier New', Courier, monospace;
+
+	/*
+		Variables with --color-base prefix define
+		the hue, and saturation values to be used for
+		hsla colors.
+
+		Example:
+		--color-base-{color}: {hue}, {saturation};
+	*/
+
+	--color-base-white: 0, 0%;
+	--color-base-black: 240, 100%;
+	--color-base-gray: 250, 14%;
+	--color-base-blue: 212, 100%;
+	--color-base-blue-dark: 191, 72%;
+	--color-base-teal: 172, 80%;
+	--color-base-green: 154, 42%;
+	--color-base-orange: 22, 100%;
+	--color-base-purple: 269, 79%;
+	--color-base-red: 351, 100%;
+	--color-base-yellow: 41, 100%;
+
+	/*
+		Color palettes are made using --color-base 
+		variables, along with a lightness value to
+		define different variants.
+	*/
+
+	--color-gray-5: var(--color-base-gray), 5%;
+	--color-gray-10: var(--color-base-gray), 10%;
+	--color-gray-20: var(--color-base-gray), 20%;
+	--color-gray-30: var(--color-base-gray), 30%;
+	--color-gray-40: var(--color-base-gray), 40%;
+	--color-gray-50: var(--color-base-gray), 50%;
+	--color-gray-60: var(--color-base-gray), 60%;
+	--color-gray-70: var(--color-base-gray), 70%;
+	--color-gray-80: var(--color-base-gray), 80%;
+	--color-gray-90: var(--color-base-gray), 90%;
+	--color-gray-95: var(--color-base-gray), 95%;
+
+	--color-blue: var(--color-base-blue), 61%;
+	--color-blue-dark: var(--color-base-blue-dark), 39%;
+	--color-green: var(--color-base-green), 42%;
+	--color-orange: var(--color-base-orange), 50%;
+	--color-purple: var(--color-base-purple), 54%;
+	--color-red: var(--color-base-red), 54%;
+	--color-yellow: var(--color-base-yellow), 59%;
+}
+
+body {
+	color-scheme: light;
+	--theme-accent: var(--color-blue-dark);
+	--theme-accent-secondary: var(--color-green);
+	--theme-accent-tertiary: var(--theme-text);
+	--theme-dim: hsla(var(--color-gray-70), 1);
+	--theme-dim-light: hsla(var(--color-gray-80), 1);
+	--theme-dim-lighter: hsla(var(--color-gray-90), 1);
+	--theme-dim-lightest: hsla(var(--color-gray-95), 1);
+	--theme-accent-opacity: 0.1;
+	--theme-divider: hsla(var(--color-purple), 0.1);
+	--theme-shade-subtle: hsla(var(--color-purple), 0.3);
+	--theme-text: var(--color-grey-2);
+	/* --theme-text: hsla(var(--color-gray-10), 1); */
+	--theme-text-light: var(--color-grey-2-90);
+	/* --theme-text-light: hsla(var(--color-gray-30), 1); */
+	--theme-text-lighter: var(--color-grey-2-80);
+	/* --theme-text-lighter: hsla(var(--color-gray-40), 1); */
+	--theme-text-lightest: var(--color-grey-2-50);
+	--theme-text-superlight: var(--color-grey-2-20);
+	--theme-bg:  #F9F9F8;
+	--theme-bg-gradient-top: var(--theme-bg);
+	--theme-bg-gradient-bottom: #E3E9F0;
+	--theme-bg-hover: hsla(var(--color-purple), 0.075);
+	--theme-bg-offset: hsla(var(--color-purple), 0.1);
+	--theme-bg-accent: hsla(var(--color-purple), var(--theme-accent-opacity));
+	--theme-backdrop-overlay: hsla(var(--color-gray-50), 0.8);
+	--theme-code-inline-bg: var(--color-accent-2-10);
+	--theme-code-inline-text: var(--theme-text);
+	--theme-code-bg: hsla(257, 31%, 22%, 1);
+	--theme-code-tabs: hsla(257, 38%, 32%, 1);
+	--theme-code-text: hsla(var(--color-gray-95), 1);
+	--theme-navbar-bg: var(--theme-bg);
+	--theme-selection-color: hsla(var(--color-purple), 1);
+	--theme-selection-bg: hsla(var(--color-purple), var(--theme-accent-opacity));
+	--theme-code-selection-bg: hsla(var(--color-purple), 0.4);
+	--theme-code-mark-bg: hsl(226, 50%, 33%);
+	--theme-code-mark-border: hsl(224, 50%, 54%);
+	--theme-code-ins-bg: hsl(122, 22%, 23%);
+	--theme-code-ins-border: hsl(128, 42%, 38%);
+	--theme-code-ins-text: hsl(128, 31%, 65%);
+	--theme-code-del-bg: hsl(338, 40%, 26%);
+	--theme-code-del-border: hsl(338, 46%, 53%);
+	--theme-code-del-text: hsl(338, 36%, 70%);
+
+	--theme-bg-gradient: linear-gradient(
+		180deg,
+		var(--theme-bg-gradient-top) 0%,
+		var(--theme-bg-gradient-bottom) 100%
+	);
+
+	--theme-glow-highlight: transparent;
+	--theme-glow-diffuse: hsla(var(--color-base-purple), 65%, 0.5);
+	--theme-glow-blur: 10px;
+}
+
+body.dark {
+	color-scheme: dark;
+	/* We lighten-up the orange in dark mode, to help with link contrast. */
+	--color-orange: var(--color-base-orange), 60%;
+	--theme-accent-opacity: 0.4;
+	--theme-accent: hsla(var(--color-orange), 1);
+	--theme-accent-secondary: hsla(var(--color-orange), 1);
+	--theme-accent-tertiary: var(--theme-text);
+	--theme-text-accent: hsla(var(--color-orange), 1);
+	--theme-dim: hsla(var(--color-gray-90), 0.3);
+	--theme-dim-light: hsla(var(--color-gray-90), 0.2);
+	--theme-dim-lighter: hsla(var(--color-gray-90), 0.1);
+	--theme-dim-lightest: hsla(var(--color-gray-95), 0.1);
+	--theme-divider: hsla(var(--color-gray-95), 0.1);
+	--theme-shade-subtle: hsla(var(--color-gray-95), 0.4);
+	--theme-text: hsla(var(--color-gray-90), 1);
+	--theme-text-light: hsla(var(--color-gray-80), 1);
+	--theme-text-lighter: hsla(var(--color-gray-70), 1);
+	--theme-text-lightest: var(--color-white-50);
+	--theme-text-superlight: var(--color-white-25);
+	--theme-bg: hsl(227, 28%, 19%);
+	--theme-bg-gradient-top: var(--theme-bg);
+	--theme-bg-gradient-bottom: hsl(229, 29%, 11%);
+	--theme-bg-hover: hsla(var(--color-purple), 0.2);
+	--theme-bg-offset: #0008;
+	--theme-backdrop-overlay: hsla(var(--color-gray-10), 0.8);
+	--theme-code-inline-bg: #ffffff16;
+	--theme-code-inline-text: var(--theme-text-light);
+	--theme-code-bg: hsla(257, 31%, 11%, 1);
+	--theme-code-tabs: hsla(261, 40%, 21%, 1);
+	--theme-code-text: hsla(var(--color-base-white), 80%, 1);
+	--theme-navbar-bg: var(--theme-bg);
+	--theme-selection-color: hsla(var(--color-base-white), 100%, 1);
+	--theme-code-mark-bg: hsl(224, 60%, 25%);
+	--theme-code-mark-border: hsl(225, 42%, 46%);
+	--theme-code-ins-bg: hsl(122, 29%, 17%);
+	--theme-code-ins-border: hsl(128, 41%, 32%);
+	--theme-code-ins-text: hsl(128, 31%, 55%);
+	--theme-code-del-bg: hsl(337, 47%, 19%);
+	--theme-code-del-border: hsl(340, 34%, 43%);
+	--theme-code-del-text: hsl(340, 24%, 65%);
+
+	--theme-glow-highlight: hsla(var(--color-base-purple), 50%, 1);
+	--theme-glow-diffuse: hsla(var(--color-base-purple), 35%, 0.4);
+}
+
+::selection {
+	/* color: var(--theme-text); */
+	background: color-mix(in srgb, var(--theme-accent-secondary) 50%, transparent);
+	
+}
+
+
+  html {
+    background-color: var(--white);
+    font-family: var(--font-family-sans), var(--font-family-serif), sans-serif;
+    text-size-adjust: 100%;
+    height: 100%;
+    
+  }
+
+  body {
+    margin: 0;
+  }
+
+  .download-button {
+    padding: 1em 1em;
+    border-radius: .5em;
+    display: block;
+    width: 3em;
+    margin-left: auto;
+    /* max-width: 2em;
+    height: 2em; */
+    text-align: center;
+    background: var(--theme-dim-light);
+    &:hover {
+      background-color: var(--theme-dim);
+    }
+    color: var(--white);
+  }
+</style>

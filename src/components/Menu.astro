@@ -1,0 +1,45 @@
+---
+// Menu.astro
+
+// Import Astro global to access the current URL
+const url = Astro.url;
+---
+<nav class="menu">
+    <ul>
+        <li><a href="/learn" class={url.pathname.startsWith('/learn') ? 'active' : ''}>LEARN</a></li>
+        <li><a href="/resource" class={url.pathname.startsWith('/resource') ? 'active' : ''}>RESOURCES</a></li>
+    </ul>
+  </nav>
+  
+  <style>
+     .menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .menu li {
+    margin: 0;
+  }
+
+  .menu a {
+    color: var(--text-color);
+    text-decoration: none !important;
+    font-size: var(--font-size-1);
+    padding: .5em 1.5em;
+    border-radius: 1.5em;
+    font-family: var(--font-family-sans);
+    transition: all 200ms ease;
+    background-color: var(--theme-dim-lighter);
+  }
+
+  .menu a:hover,
+  .menu a.active { /* Apply hover style also to the active link */
+    background-color: var(--theme-dim);
+    text-decoration: underline; /* If you also want underline on active */
+  }
+  </style>
+  

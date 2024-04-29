@@ -1,0 +1,36 @@
+/* ThemeToggle.css */
+.theme-toggle {
+  width: 50px;
+  height: 25px;
+  background-color: var(--theme-dim);
+  border-radius: 25px;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Ensure icons are not overlapping and have space */
+}
+
+.toggle-thumb {
+  width: 23px;
+  height: 23px;
+  background-color: var(--theme-bg);
+  border-radius: 50%;
+  position: absolute;
+  transition: transform 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle-thumb-on {
+  transform: translateX(25px);
+}
+
+body.dark .theme-toggle {
+  background-color: var(--theme-dim);
+}
+.fa-moon {color: #f1c40f;}
+
+.fa-sun {color: #f39c12;}
