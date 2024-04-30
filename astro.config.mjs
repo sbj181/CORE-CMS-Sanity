@@ -26,6 +26,11 @@ export default defineConfig({
   // Hybrid+adapter is required to support embedded Sanity Studio
   output: "hybrid",
   adapter: vercel(),
+  buildOptions: {
+    rollupOptions: {
+      external: ['@sanity/client']
+    }
+  },
   integrations: [sanity({
     projectId,
     dataset,
