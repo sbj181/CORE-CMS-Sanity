@@ -32,7 +32,19 @@ export default defineConfig({
   ],
   buildOptions: {
     rollupOptions: {
-      external: ['@sanity/client'] // Mark @sanity/client as external
+      external: ['@sanity/client'],
+      plugins: [
+        {
+          name: 'resolve-sanity-client',
+          resolveId(source) {
+            if (source === '@sanity/client') {
+              return { id: require.resolve('@sanity/client'), external: true };
+            }
+            return null;
+          }
+        }
+      ]
     }
   }
+  
 });
