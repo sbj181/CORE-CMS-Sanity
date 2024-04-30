@@ -4,29 +4,29 @@ import { PortableText } from "astro-portabletext";
 import Layout from "../../layouts/Layout.astro";
 import { formatDate } from "../../utils";
 import { urlFor } from "../../utils/image";
-import { getPost, getPosts } from "../../utils/sanity";
+import { getResource, getResources } from "../../utils/sanity";
 import { Icon } from "astro-icon/components";
 
 export async function getStaticPaths() {
-  const posts = await getPosts();
-  return posts.map((post) => ({
-    params: { slug: post.slug.current },
+  const resources = await getResources();
+  return resources.map((resource) => ({
+    params: { slug: resource.slug.current },
   }));
 }
 
 type Params = InferGetStaticParamsType<typeof getStaticPaths>;
 const { slug } = Astro.params as Params;
 
-const post = await getPost(slug);
+const resource = await getResource(slug);
 ---
 
-<Layout title={post.title!}>
+<Layout title={resource.title!}>
   <section class="post">
     {
-      post.imageSrc ? (
+      resource.imageSrc ? (
         <img
           class="post__cover"
-          src={urlFor(post.imageSrc).url()}
+          src={urlFor(resource.imageSrc).url()}
           alt="Cover image"
         />
       ) : (
@@ -34,37 +34,39 @@ const post = await getPost(slug);
       )
     }
     <div class="post__container">
-      <h1 class="post__title">{post.title}</h1>
+      <h1 class="post__title">{resource.title}</h1>
       
-      <!-- <p class="post__excerpt">{post.longDescription}</p> -->
+      
       <p class="post__date">
-        {formatDate(post._createdAt)}
+        {formatDate(resource._createdAt)}
       </p>
       
       <div class="details-container">
         <div class="file-details">
           <div class="file-detail-item">
             <span class="file-detail-label">Date Modified: </span>
-            <span class="file-detail-value">{formatDate(post._createdAt)}</span>
+            <span class="file-detail-value">{formatDate(resource._createdAt)}</span>
           </div>
           <div class="file-detail-item">
             <span class="file-detail-label">Author: </span>
-            <span class="file-detail-value">{post.author}</span>
+            <span class="file-detail-value">{resource.author}</span>
           </div>
           <div class="file-detail-item">
             <span class="file-detail-label">File Type: </span>
-            <span class="file-detail-value">{post.resourceType}</span>
+            <span class="file-detail-value">{resource.resourceType}</span>
           </div>
         </div>
-        {post.BMSResourceLink && (
-          <a href={post.BMSResourceLink} class="download-button" target="_blank" rel="noopener noreferrer">
+        {resource.BMSResourceLink && (
+          <a href={resource.BMSResourceLink} class="download-button" target="_blank" rel="noopener noreferrer">
             <Icon size={30} name="mdi:file-download" />
           </a>
         )}
       </div>
 
       <div class="post__content">
-        <PortableText value={post.longDescription} />
+        {resource.longDescription && (
+          <PortableText value={resource.longDescription} />
+        )}
       </div>
 
       

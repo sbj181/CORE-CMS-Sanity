@@ -13,14 +13,14 @@ async function fetchData<T>(query: string, params: Record<string, any> = {}): Pr
   }
 }
 
-export async function getPosts(): Promise<Post[]> {
+export async function getResources(): Promise<Resource[]> {
   const query = groq`*[_type == "resource" && defined(slug.current)] | order(_createdAt desc)`;
-  return fetchData<Post[]>(query);
+  return fetchData<Resource[]>(query);
 }
 
-export async function getPost(slug: string): Promise<Post> {
+export async function getResource(slug: string): Promise<Resource> {
   const query = groq`*[_type == "resource" && slug.current == $slug][0]`;
-  return fetchData<Post>(query, { slug });
+  return fetchData<Resource>(query, { slug });
 }
 
 export async function getNavBlocks(): Promise<NavBlock[]> {
@@ -66,7 +66,7 @@ export async function getLearningStep(slug: string): Promise<LearningStep> {
 
 
 
-export interface Post {
+export interface Resource {
   _type: "resource";
   _createdAt: string;
   title?: string;
@@ -74,9 +74,9 @@ export interface Post {
   slug: Slug;
   excerpt?: string;
   description?: string;
-  longDescription?: string;
+  longDescription?: PortableTextBlock[];
   imageSrc?: ImageAsset;
-  body: PortableTextBlock[];
+  // body: PortableTextBlock[];
   BMSResourceLink?: string; // Add optional if it might not always be present
   resourceType?: string; // Similarly handle other properties
   author?: string;

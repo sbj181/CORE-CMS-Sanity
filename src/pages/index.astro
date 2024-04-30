@@ -3,9 +3,9 @@ import Card from "../components/Card.astro";
 import NavBlock from "../components/NavBlock.astro";
 import Welcome from "../components/Welcome.astro";
 import Layout from "../layouts/Layout.astro";
-import { getPosts, getNavBlocks } from "../utils/sanity";
+import { getResources, getNavBlocks } from "../utils/sanity";
 
-const posts = await getPosts();
+const posts = await getResources();
 const navBlocks = await getNavBlocks();
 ---
 
