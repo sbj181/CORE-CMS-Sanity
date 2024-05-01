@@ -33,16 +33,14 @@ export default defineConfig({
     apiVersion: "2023-03-20"
   }), react(), icon()],
   vite: {
+    optimizeDeps: {
+      include: ['@sanity/client']
+    },
     build: {
       rollupOptions: {
-        external: [],
-        output: {
-          // Depending on your specific need you might want to adjust this
-          manualChunks: {
-            'sanity-client': ['@sanity/client'],
-          }
-        }
+        external: [], // Make sure this is empty
       }
     }
   }
+  
 });
