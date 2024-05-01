@@ -1,50 +1,48 @@
-import { defineConfig } from 'astro/config';
-import vercel from '@astrojs/vercel/serverless';
-import sanity from '@sanity/astro';
-import react from '@astrojs/react';
-import icon from 'astro-icon';
+// Loading environment variables from .env files
+// https://docs.astro.build/en/guides/configuring-astro/#environment-variables
 import { loadEnv } from "vite";
-
-// Load environment variables
 const {
   PUBLIC_SANITY_STUDIO_PROJECT_ID,
   PUBLIC_SANITY_STUDIO_DATASET,
   PUBLIC_SANITY_PROJECT_ID,
   PUBLIC_SANITY_DATASET
 } = loadEnv(import.meta.env.MODE, process.cwd(), "");
+import { defineConfig } from "astro/config";
 
+// Different environments use different variables
 const projectId = PUBLIC_SANITY_STUDIO_PROJECT_ID || PUBLIC_SANITY_PROJECT_ID;
 const dataset = PUBLIC_SANITY_STUDIO_DATASET || PUBLIC_SANITY_DATASET;
+import sanity from "@sanity/astro";
+import react from "@astrojs/react";
 
+// Change this depending on your hosting provider (Vercel, Netlify etc)
+// https://docs.astro.build/en/guides/server-side-rendering/#adding-an-adapter
+import vercel from "@astrojs/vercel/serverless";
+
+import icon from "astro-icon";
+
+// https://astro.build/config
 export default defineConfig({
-  output: 'hybrid',
+  output: "hybrid",
   adapter: vercel(),
-  integrations: [
-    sanity({
-      projectId,
-      dataset,
-      studioBasePath: '/admin',
-      useCdn: false,
-      apiVersion: '2023-03-20'
-    }),
-    react(),
-    icon()
-  ],
-  buildOptions: {
-    rollupOptions: {
-      external: ['@sanity/client'],
-      plugins: [
-        {
-          name: 'resolve-sanity-client',
-          resolveId(source) {
-            if (source === '@sanity/client') {
-              return { id: require.resolve('@sanity/client'), external: true };
-            }
-            return null;
+  integrations: [sanity({
+    projectId,
+    dataset,
+    studioBasePath: "/admin",
+    useCdn: false,
+    apiVersion: "2023-03-20"
+  }), react(), icon()],
+  vite: {
+    build: {
+      rollupOptions: {
+        external: [],
+        output: {
+          // Depending on your specific need you might want to adjust this
+          manualChunks: {
+            'sanity-client': ['@sanity/client'],
           }
         }
-      ]
+      }
     }
   }
-  
 });
